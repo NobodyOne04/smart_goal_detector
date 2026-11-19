@@ -16,7 +16,7 @@ Each is a scikit-learn decision tree, so you can read the rules it learned.
 
 ```sh
 uv sync
-uv run python -m ipykernel install --user --name chatty-bot --display-name "Python (chatty-bot)"
+uv run python -m ipykernel install --user --name smart-goal-detector --display-name "Python (smart-goal-detector)"
 uv run jupyter lab smart_goals.ipynb
 ```
 
@@ -53,3 +53,7 @@ The hand-written row is the realistic one.
 - Reasons phrased unlike the training data ("…to stabilize revenue") are missed.
 - Numbers that look like durations ("under 2 hours") are treated as time, not
   as a measurable target.
+
+## Decisions
+
+Why it is built this way: [docs/adr](docs/adr/README.md).

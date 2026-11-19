@@ -1,0 +1,25 @@
+# 0002. Five independent decision trees, one per SMART criterion
+
+- Status: Accepted
+- Date: 2026-11-19
+
+Each SMART criterion gets its own shallow scikit-learn `DecisionTreeClassifier`, so every
+verdict can be explained by reading the rules the tree learned.
+
+## Technical details
+- **Models**: five `DecisionTreeClassifier`s (Specific, Measurable, Achievable, Relevant,
+  Time-bound) on the same feature pipeline, `max_depth=6`, `min_samples_leaf=30`, so rules
+  stay readable and the trees can't memorise the 3% label noise.
+- **Comparison**: 5-fold cross-validated F1 against logistic regression and a 200-tree random
+  forest; the single tree is kept when it is close, for readability.
+- **Explainability**: the notebook prints feature importances and the full rules of each
+  tree; `check_goal()` reports the leaf's share of training goals that met the criterion as
+  the confidence.
+- **Accuracy**: about 0.95-0.97 on the generated test split, 0.78-1.00 on 23 hand-written
+  goals (the realistic number).
+
+## Technologies and alternatives
+- Involved: scikit-learn, pandas, matplotlib, JupyterLab; uv, Python 3.11.
+- Alternatives: one multi-label model (criteria are independent; separate trees are easier
+  to read); a fine-tuned transformer (opaque, heavy, no labelled data to justify it);
+  random forest (slightly better, not readable).

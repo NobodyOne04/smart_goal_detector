@@ -1,0 +1,23 @@
+# 0003. Synthetic labelled goals; regex features plus TF-IDF
+
+- Status: Accepted
+- Date: 2026-11-19
+
+No public SMART-goal dataset exists, so goals are generated from phrase pools with labels known
+by construction, and the features are hand-crafted text cues plus word n-grams.
+
+## Technical details
+- **Data**: about 6,000 goals assembled from parts; for each criterion a coin flip picks a
+  phrase that satisfies it or not, so the five labels are independent and known. 3% of labels
+  are flipped to mimic annotator noise (so ~97% is the ceiling).
+- **Features** (`FeatureUnion`): `SmartFeatures` (real deadlines; target numbers counted
+  after masking dates and durations, so "within 3 months" isn't "measurable"; unit-aware
+  "too big" amounts; vague words; stated reasons such as "so that…") plus TF-IDF word n-grams.
+- **Honest test**: 23 goals written by hand in a different style, labelled by the author.
+- **Consequences**: the models learn text cues, not common sense ("Become a millionaire by
+  next month" passes as achievable); reasons and numbers phrased unlike the generator are
+  missed (see README "Limitations").
+
+## Technologies and alternatives
+- Alternatives: hand-labelling real goals (slow, small); an LLM as labeller or judge (not a
+  small readable model); TF-IDF alone (misses dates vs. quantities).
